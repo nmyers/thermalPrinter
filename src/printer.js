@@ -68,9 +68,8 @@ Printer.prototype.print = function(callback) {
 			if (_self.commandDelay !== 0) {
 				sleep.usleep(_self.commandDelay);
 			}
-			_self.serialPort.write(command, function() {
-				_self.serialPort.drain(callback);
-			});
+			// can't wait for drain - printer's serial tx disconnected
+			_self.serialPort.write(command, callback);
 		},
 		function(err) {
 			_self.commandQueue = [];
