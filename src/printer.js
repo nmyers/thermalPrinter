@@ -53,6 +53,8 @@ var Printer = function(serialPort, opts) {
 	// printmode bytes (normal by default)
 	this.printMode = 0;
 
+	this.brightnessLevel = opts.brightnessLevel || 0.8;
+
 	var _self = this;
 	this.reset().sendPrintingParams().print(function() {
 		_self.emit('ready');
@@ -225,7 +227,7 @@ Printer.prototype.printImage = function(path, cb){
 
 						var brightness = helpers.rgbToHsl(r, g, b)[2];
 						// only print dark stuff
-						if (brightness < 0.6) {
+						if (brightness < _self.brightnessLevel) {
 							imgData[y][x] += (1 << n);
 						}
 					}
